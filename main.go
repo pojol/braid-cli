@@ -43,6 +43,8 @@ func main() {
 	if err := cmd.Run(); err != nil {
 		fmt.Printf("Failed to clone scaffold: %v\n", err)
 		os.Exit(1)
+	} else {
+		fmt.Printf("Successfully cloned scaffold template [version: %s] to %s\n", version, projectName)
 	}
 
 	// Change to the project directory
@@ -54,10 +56,6 @@ func main() {
 	// Remove the existing go.mod and go.sum files
 	os.Remove("go.mod")
 	os.Remove("go.sum")
-
-	// Initialize a new git repository
-	cmd = exec.Command("git", "init")
-	cmd.Run()
 
 	// Initialize a new Go module with the project name
 	cmd = exec.Command("go", "mod", "init", projectName)

@@ -10,6 +10,7 @@ import (
 
 const scaffoldRepo = "https://github.com/pojol/braid-scaffold.git"
 const defaultModuleName = "braid-scaffold"
+const defaultVersion = "master"
 
 func replaceInFile(filePath, oldStr, newStr string) error {
 	content, err := os.ReadFile(filePath)
@@ -24,14 +25,19 @@ func replaceInFile(filePath, oldStr, newStr string) error {
 
 func main() {
 	if len(os.Args) < 3 {
-		fmt.Println("Usage: braid-cli new <project-name>")
+		fmt.Println("Usage: braid-cli new <project-name> [version]")
+		fmt.Println("Example: braid-cli new myserver v0.0.1")
 		os.Exit(1)
 	}
 
 	projectName := os.Args[2]
+	version := defaultVersion
+	if len(os.Args) > 3 {
+		version = os.Args[3]
+	}
 
 	// Clone the scaffold repository
-	cmd := exec.Command("git", "clone", scaffoldRepo, projectName)
+	cmd := exec.Command("git", "clone", "-b", version, scaffoldRepo, projectName)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	if err := cmd.Run(); err != nil {
@@ -62,7 +68,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	cmd = exec.Command("go", "get", "github.com/pojol/braid@master")
+	cmd = exec.Command("go", "get", fmt.Sprintf("github.com/pojol/braid@%s", version))
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	if err := cmd.Run(); err != nil {

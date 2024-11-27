@@ -74,7 +74,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	cmd = exec.Command("go", "get", "github.com/pojol/gobot@0.4.5")
+	cmd = exec.Command("go", "get", "github.com/pojol/gobot@v0.4.5")
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	if err := cmd.Run(); err != nil {

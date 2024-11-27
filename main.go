@@ -74,6 +74,14 @@ func main() {
 		os.Exit(1)
 	}
 
+	cmd = exec.Command("go", "get", "github.com/pojol/gobot@0.4.5")
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	if err := cmd.Run(); err != nil {
+		fmt.Printf("Failed to initialize gobot Go module: %v\n", err)
+		os.Exit(1)
+	}
+
 	// Replace module name in all files
 	err := filepath.Walk(".", func(path string, info os.FileInfo, err error) error {
 		if err != nil {
